@@ -1,3 +1,6 @@
+> [!NOTE]  
+> 👋 Hello Toggl! Please check [PR #1](https://github.com/wzulfikar/toggl-capacity-grid-assignment/pull/1) for what was done for the home assignment. I left a screen recording in the PR description.
+
 # Capacity view
 
 Managers need to see who is over-committed before the week starts, not after. This is a
