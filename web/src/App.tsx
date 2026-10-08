@@ -1,17 +1,27 @@
 import { CapacityGrid } from './CapacityGrid'
-
-// The range the grid loads. Widen it if you want to see more.
-const FROM = '2025-12-29'
-const TO = '2026-01-16'
+import { formatLongDate, startOfWeek, todayIso } from './dates'
+import { RangeControls } from './RangeControls'
+import { useRangeState } from './urlState'
 
 export function App() {
+  const { from, weeks, to, q, setRange, setQ } = useRangeState()
+
+  const today = todayIso()
+  const todayInRange = startOfWeek(today) >= from && startOfWeek(today) <= startOfWeek(to)
+
   return (
     <main>
       <h1>Team capacity</h1>
-      <p className="range">
-        {FROM} to {TO}
-      </p>
-      <CapacityGrid from={FROM} to={TO} />
+      <div className="toolbar">
+        <RangeControls from={from} weeks={weeks} to={to} onChange={setRange} />
+        <div className="toolbar-right">
+          {todayInRange && <span className="today-date">Today: {formatLongDate(today)}</span>}
+          <button type="button" onClick={() => setRange({ from: startOfWeek(todayIso()) })}>
+            Today
+          </button>
+        </div>
+      </div>
+      <CapacityGrid from={from} to={to} query={q} onQueryChange={setQ} onClearQuery={() => setQ('')} />
     </main>
   )
 }

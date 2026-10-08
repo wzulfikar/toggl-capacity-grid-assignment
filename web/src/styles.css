@@ -13,12 +13,6 @@ h1 {
   margin: 0 0 0.25rem;
 }
 
-.range {
-  margin: 0 0 1.5rem;
-  opacity: 0.6;
-  font-variant-numeric: tabular-nums;
-}
-
 table {
   border-collapse: collapse;
   font-variant-numeric: tabular-nums;
@@ -29,4 +23,464 @@ td {
   border: 1px solid color-mix(in srgb, currentColor 20%, transparent);
   padding: 0.5rem 0.75rem;
   text-align: left;
+}
+
+/* Colour steps. Text is chosen for >= 4.5:1 on each background. */
+:root {
+  --idle-bg: #eceef1;
+  --idle-fg: #3d434b;
+  --low-bg: #d9f2df;
+  --low-fg: #14391f;
+  --mid-bg: #9fdcae;
+  --mid-fg: #0f3a1c;
+  --high-bg: #2f7d49;
+  --high-fg: #ffffff;
+  --over-bg: #ff8a5c;
+  --over-fg: #3a0d00;
+  --today: #2563eb;
+  --surface: Canvas;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --idle-bg: #2a2d33;
+    --idle-fg: #c8ccd2;
+    --low-bg: #1f4a2c;
+    --low-fg: #d6f5de;
+    --mid-bg: #2d7a45;
+    --mid-fg: #ffffff;
+    --high-bg: #4cc274;
+    --high-fg: #04200f;
+    --today: #60a5fa;
+  }
+}
+
+.cell-idle {
+  background: var(--idle-bg);
+  color: var(--idle-fg);
+}
+.cell-low {
+  background: var(--low-bg);
+  color: var(--low-fg);
+}
+.cell-mid {
+  background: var(--mid-bg);
+  color: var(--mid-fg);
+}
+.cell-high {
+  background: var(--high-bg);
+  color: var(--high-fg);
+}
+.cell-over {
+  background: var(--over-bg);
+  color: var(--over-fg);
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.toolbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.toolbar button,
+.hours-actions button,
+.notice button,
+.popover-actions button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.35rem 0.7rem;
+}
+
+.toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.toolbar select {
+  font: inherit;
+  padding: 0.3rem 0.4rem;
+}
+
+.search {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid color-mix(in srgb, currentColor 30%, transparent);
+  border-radius: 6px;
+}
+
+.search {
+  width: 16rem;
+  box-sizing: border-box;
+}
+
+.search input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+
+.search input::-webkit-search-cancel-button,
+.search input::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.search:focus-within {
+  outline: 2px solid var(--today);
+}
+
+.search-count {
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+.today-date {
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+.legend-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin: 0 0 0.75rem;
+}
+
+.legend-search {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Floating elements are placed from JS (see anchor.ts). */
+[popover] {
+  inset: auto;
+  margin: 0;
+  position: fixed;
+}
+
+.popover {
+  max-width: 22rem;
+  background: var(--surface);
+  color: CanvasText;
+  padding: 1rem;
+  border: 1px solid color-mix(in srgb, currentColor 30%, transparent);
+  border-radius: 8px;
+  box-shadow: 0 6px 24px rgb(0 0 0 / 0.2);
+  font-size: 0.9rem;
+}
+
+.range-popover[popover]:popover-open {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.popover-text {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  max-width: 20rem;
+  overflow: visible;
+}
+
+.range-popover label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.popover-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.85rem;
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.swatch {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 3px;
+  border: 1px solid color-mix(in srgb, currentColor 25%, transparent);
+}
+
+.notice {
+  margin: 0 0 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--over-bg);
+  border-radius: 6px;
+}
+
+.updating {
+  margin: 0 0 0.5rem;
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+.grid-scroll {
+  overflow: auto;
+  max-height: calc(100vh - 14rem);
+  border: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+}
+
+.grid {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+}
+
+.grid th,
+.grid td {
+  border: 0;
+  border-right: 1px solid color-mix(in srgb, currentColor 15%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, currentColor 15%, transparent);
+  padding: 0.4rem 0.6rem;
+}
+
+.grid thead th {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: var(--surface);
+  height: 2rem;
+  box-sizing: border-box;
+}
+
+.grid thead tr:nth-child(2) th.week {
+  top: 2rem;
+}
+
+.grid thead th.year {
+  text-align: left;
+}
+
+.grid thead th.week,
+.grid td.cell {
+  min-width: 7.5rem;
+}
+
+.sticky-col {
+  position: sticky;
+  background: var(--surface);
+  z-index: 2;
+}
+
+.grid thead th.sticky-col {
+  z-index: 4;
+}
+
+.col-person {
+  left: 0;
+  min-width: 15rem;
+  font-weight: normal;
+}
+
+.col-hours {
+  left: 15rem;
+  min-width: 8rem;
+}
+
+.week-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.35rem;
+  width: 100%;
+  white-space: nowrap;
+}
+
+.is-busy {
+  opacity: 0.5;
+  transition: opacity 0.15s;
+}
+
+.person {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.avatar {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.person-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.person-name {
+  font-weight: 600;
+}
+
+.person-avg {
+  font-size: 0.78rem;
+  opacity: 0.7;
+}
+
+.cell {
+  position: relative;
+  text-align: center;
+}
+
+.cell-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cell-main {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.cell-sub {
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+
+/* Today line: a 2px vertical rule at the weekday position. */
+.is-today-col {
+  position: relative;
+}
+
+.is-today-col::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--today-pos);
+  width: 2px;
+  margin-left: -1px;
+  background: var(--today);
+  pointer-events: none;
+}
+
+/* Header cells get a short marker so the line doesn't cross the label. */
+th.week.is-today-col::after {
+  top: auto;
+  bottom: 0;
+  height: 8px;
+}
+
+.tip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.tip-text {
+  width: max-content;
+  max-width: 18rem;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid color-mix(in srgb, currentColor 30%, transparent);
+  border-radius: 6px;
+  background: var(--surface);
+  color: CanvasText;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.2);
+  font-size: 0.78rem;
+  font-weight: normal;
+  text-align: left;
+  white-space: normal;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.icon-btn {
+  display: inline-grid;
+  place-items: center;
+  padding: 0.15rem;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+}
+
+.hours-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+}
+
+.hours-btn:hover {
+  border-color: color-mix(in srgb, currentColor 30%, transparent);
+}
+
+.hours-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  align-items: flex-start;
+}
+
+.hours-input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.hours-edit input {
+  width: 5rem;
+}
+
+.hours-error {
+  font-size: 0.8rem;
+  color: #d9480f;
+}
+
+.hours-actions {
+  display: flex;
+  gap: 0.4rem;
 }
